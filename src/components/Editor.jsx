@@ -14,18 +14,22 @@ export default function Editor() {
 
   const handleMouseUp = () => {
     const selection = window.getSelection();
+    const selectedText = selection.toString();
+  
+    const selectedTextWithEmTag = <b>{selectedText}</b>;
 
-    setSelectedText(selection.toString());
-    console.log(selection.toString());
+
+    setSelectedText(selectedTextWithEmTag);
     setSelectedData(selection);
+
+    // contaniner  id 
+    const containingDiv = findContainingDiv(selection.anchorNode);
+    const id = containingDiv ? containingDiv.id : '';
+    setContainingDivId(id);
+    console.log('Containing div ID:', id);
+
     document.removeEventListener('mouseup', handleMouseUp);
     document.removeEventListener('mouseleave', handleMouseLeave);
-    const containingDiv = findContainingDiv(selection.anchorNode);
-    const s = containingDiv ? containingDiv.id : '';
-    setContainingDivId(s);
-
-    console.log('Containing div ID:', s);
-
   };
   const findContainingDiv = (node) => {
     if (!node) return null;
